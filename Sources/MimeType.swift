@@ -107,7 +107,7 @@ public struct MimeType {
     return bytes.count >= bytesCount && matches(bytes, swime)
   }
 
-  public static from(type: FileType) -> MimeType? {
+  public static func from(type: FileType) -> MimeType? {
     for m in MimeType.all {
       if m.type == type {
         return m
