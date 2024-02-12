@@ -88,6 +88,13 @@ public struct MimeType {
   /// A function to check if the bytes match the `MimeType` specifications.
   fileprivate let matches: ([UInt8], Swime) -> Bool
 
+  public init(mime: String, ext: String, type: FileType, bytesCount: Int, matches: @escaping ([UInt8], Swime) -> Bool) {
+    self.mime = mime
+    self.ext = ext
+    self.type = type
+    self.bytesCount = bytesCount
+    self.matches = matches
+  }
   ///  Check if the given bytes matches with `MimeType`
   ///  it will check for the `bytes.count` first before delegating the
   ///  checker function to `matches` property
@@ -98,6 +105,16 @@ public struct MimeType {
   ///  - returns: Bool
   public func matches(bytes: [UInt8], swime: Swime) -> Bool {
     return bytes.count >= bytesCount && matches(bytes, swime)
+  }
+
+  public static from(type: FileType) -> MimeType? {
+    for m in MimeType.all {
+      if m.type == type {
+        return m
+      }
+    }
+
+    return nil
   }
 
   /// List of all supported `MimeType`s
@@ -117,7 +134,7 @@ public struct MimeType {
       type: .svg,
       bytesCount: 1,
       matches: { bytes, _ in
-        return true
+        return false
       }
     ),
     MimeType(
