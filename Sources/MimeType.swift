@@ -53,6 +53,7 @@ public enum FileType {
   case rtf
   case sevenZ // 7z, Swift does not let us define enum that starts with a digit
   case sqlite
+  case svg
   case swf
   case tar
   case tif
@@ -108,6 +109,15 @@ public struct MimeType {
       bytesCount: 2,
       matches: { bytes, _ in
         return bytes[0...1] == [0xFF, 0xF1]
+      }
+    ),
+    MimeType(
+      mime: "image/svg+xml",
+      ext: "svg",
+      type: .svg,
+      bytesCount: 1,
+      matches: { bytes, _ in
+        return true
       }
     ),
     MimeType(
